@@ -18,7 +18,7 @@
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label">密码</label>
-          <div class="layui-input-inline">
+          <div class="layui-input-block">
             <input
               type="password"
               name="password"
@@ -29,11 +29,10 @@
               class="layui-input"
             />
           </div>
-          <div class="layui-form-mid layui-word-aux">辅助文字</div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label">验证码</label>
-          <div class="layui-input-block">
+          <div class="layui-input-inline">
             <input
               type="text"
               name="title"
@@ -44,13 +43,18 @@
               class="layui-input"
             />
           </div>
+           <div
+            class="layui-form-mid svg"
+            @click="getCaptcha()"
+            v-html="svg"
+          ></div>
         </div>
         <div class="layui-form-item">
           <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">
-              立即提交
+            <button type="button" class="layui-btn" @click="checkForm()">
+              点击登录
             </button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <a class="imooc-link" href="http://www.layui.com">忘记密码</a>
           </div>
         </div>
       </form>
@@ -58,7 +62,67 @@
   </div>
 </template>
 
-<style lang="scss">
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'app',
+  data () {
+    return {
+      svg: ''
+    }
+  },
+  mounted () {
+    this.getCaptcha()
+  },
+  methods: {
+    getCaptcha () {
+      console.log(666)
+      axios.get('http://localhost:3000/getCaptcha').then((res) => {
+        if (res.status === 200) {
+          const obj = res.data
+          if (obj.code === 200) {
+            this.svg = obj.data
+          }
+        }
+      })
+    },
+    checkForm () {
+      console.log(555)
+      // this.errorMsg = []
+      // // regEx email
+      // if (!this.name) {
+      //   this.errorMsg.push('登录名为空！')
+      // }
+      // if (!this.password) {
+      //   this.errorMsg.push('密码不得为空！')
+      // }
+      // if (!this.code) {
+      //   this.errorMsg.push('验证码为空！')
+      // }
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
 #app {
+  background: #f2f2f2;
+}
+.layui-container {
+  background: #fff;
+}
+input {
+  width: 190px;
+}
+.imooc-link {
+  margin-left: 10px;
+  &:hover {
+    color: #009688;
+  }
+}
+
+.svg {
+  position: relative;
+  top: -15px;
 }
 </style>
