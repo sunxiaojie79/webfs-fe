@@ -1,128 +1,30 @@
 <template>
   <div id="app">
-    <div class="layui-container">
-      <form class="layui-form layui-form-pane" action="">
-        <div class="layui-form-item">
-          <label class="layui-form-label">用户名</label>
-          <div class="layui-input-block">
-            <input
-              type="text"
-              name="title"
-              required
-              lay-verify="required"
-              placeholder="请输入标题"
-              autocomplete="off"
-              class="layui-input"
-            />
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">密码</label>
-          <div class="layui-input-block">
-            <input
-              type="password"
-              name="password"
-              required
-              lay-verify="required"
-              placeholder="请输入密码"
-              autocomplete="off"
-              class="layui-input"
-            />
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">验证码</label>
-          <div class="layui-input-inline">
-            <input
-              type="text"
-              name="title"
-              required
-              lay-verify="required"
-              placeholder="请输入标题"
-              autocomplete="off"
-              class="layui-input"
-            />
-          </div>
-           <div
-            class="layui-form-mid svg"
-            @click="getCaptcha()"
-            v-html="svg"
-          ></div>
-        </div>
-        <div class="layui-form-item">
-          <div class="layui-input-block">
-            <button type="button" class="layui-btn" @click="checkForm()">
-              点击登录
-            </button>
-            <a class="imooc-link" href="http://www.layui.com">忘记密码</a>
-          </div>
-        </div>
-      </form>
-    </div>
+    <imooc-header></imooc-header>
+    <router-view></router-view>
+    <imooc-footer></imooc-footer>
   </div>
 </template>
-
 <script>
-import axios from 'axios'
-
+import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 export default {
   name: 'app',
-  data () {
-    return {
-      svg: ''
-    }
-  },
-  mounted () {
-    this.getCaptcha()
-  },
-  methods: {
-    getCaptcha () {
-      console.log(666)
-      axios.get('http://localhost:3000/getCaptcha').then((res) => {
-        if (res.status === 200) {
-          const obj = res.data
-          if (obj.code === 200) {
-            this.svg = obj.data
-          }
-        }
-      })
-    },
-    checkForm () {
-      console.log(555)
-      // this.errorMsg = []
-      // // regEx email
-      // if (!this.name) {
-      //   this.errorMsg.push('登录名为空！')
-      // }
-      // if (!this.password) {
-      //   this.errorMsg.push('密码不得为空！')
-      // }
-      // if (!this.code) {
-      //   this.errorMsg.push('验证码为空！')
-      // }
-    }
+  components: {
+    'imooc-header': Header,
+    'imooc-footer': Footer
   }
 }
 </script>
-<style lang="scss" scoped>
-#app {
-  background: #f2f2f2;
-}
-.layui-container {
-  background: #fff;
-}
-input {
-  width: 190px;
-}
-.imooc-link {
-  margin-left: 10px;
-  &:hover {
-    color: #009688;
-  }
-}
 
+<style lang="scss">
+@import "assets/layui/css/layui.css";
+@import "assets/css/global.css";
+@import "assets/layui/css/modules/layer/default/layer.css";
+
+// 公用样式
 .svg {
   position: relative;
-  top: -15px;
+  top: -4px;
 }
 </style>
